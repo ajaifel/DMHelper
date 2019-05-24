@@ -90,7 +90,7 @@ public class SendNearby extends AppCompatActivity {
                 @Override
                 public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
                     Log.i(TAG, "onConnectionInitiated: accepting connection");
-                    Toast.makeText(getApplicationContext(),"onConnectionInitiated: accepting connection", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"onConnectionInitiated: accepting connection", Toast.LENGTH_LONG).show();
                     connectionsClient.acceptConnection(endpointId, payloadCallback);
                     //opponentName = connectionInfo.getEndpointName();
                 }
@@ -99,7 +99,7 @@ public class SendNearby extends AppCompatActivity {
                 public void onConnectionResult(String endpointId, ConnectionResolution result) {
                     if (result.getStatus().isSuccess()) {
                         Log.i(TAG, "onConnectionResult: connection successful");
-                        Toast.makeText(getApplicationContext(),"onConnectionResult: connection successful", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"onConnectionResult: connection successful", Toast.LENGTH_LONG).show();
 
                         connectionsClient.stopDiscovery();
 
@@ -113,7 +113,7 @@ public class SendNearby extends AppCompatActivity {
                         }
                     } else {
                         Log.i(TAG, "onConnectionResult: connection failed");
-                        Toast.makeText(getApplicationContext(),"onConnectionResult: connection failed", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"onConnectionResult: connection failed", Toast.LENGTH_LONG).show();
                         conStatus.setText("Failed to Connect to Device");
                     }
                 }
@@ -121,7 +121,7 @@ public class SendNearby extends AppCompatActivity {
                 @Override
                 public void onDisconnected(String endpointId) {
                     Log.i(TAG, "onDisconnected: disconnected from partner");
-                    Toast.makeText(getApplicationContext(),"onDisconnected: disconnected from partner", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"onDisconnected: disconnected from partner", Toast.LENGTH_LONG).show();
                     conStatus.setText("You have been Disconnected from the Device");
                 }
             };
@@ -135,6 +135,9 @@ public class SendNearby extends AppCompatActivity {
         playerName = findViewById(R.id.playerName);
         button = findViewById(R.id.connect_button);
         conStatus = findViewById(R.id.prog_text);
+
+        playerName.setText(character.getPlayer_name());
+        characterName.setText(character.getChar_name());
 
         connectionsClient = Nearby.getConnectionsClient(this);
 
@@ -153,8 +156,9 @@ public class SendNearby extends AppCompatActivity {
     }
 
     public void sendCharacter(View view) {
+        connectionsClient.stopAllEndpoints();
         startDiscovery();
-        Toast.makeText(this, "Discover: pressed", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Discover: pressed", Toast.LENGTH_LONG).show();
         conStatus.setText("Searching for Device...");
     }
 

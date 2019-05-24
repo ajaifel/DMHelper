@@ -73,12 +73,14 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                    Toast.makeText(CharacterListActivity.this, "Character Transferring...", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
                     if (update.getStatus() == PayloadTransferUpdate.Status.SUCCESS) {
                         displayList();
+                        Toast.makeText(CharacterListActivity.this, "Character Accepted!", Toast.LENGTH_LONG).show();
                     }
                 }
             };
@@ -89,7 +91,7 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
                 @Override
                 public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
                     Log.i(TAG, "onConnectionInitiated: accepting connection");
-                    Toast.makeText(getApplicationContext(),"onConnectionInitiated: accepting connection", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"onConnectionInitiated: accepting connection", Toast.LENGTH_LONG).show();
                     connectionsClient.acceptConnection(endpointId, payloadCallback);
                     //opponentName = connectionInfo.getEndpointName();
                 }

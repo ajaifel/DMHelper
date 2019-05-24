@@ -18,11 +18,11 @@
         <activity android:name=".SendNearby"></activity>
         <activity
             android:name=".CharacterListActivity"
-            android:label="@string/title_activity_character_list"
+            android:label="Character List"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CharacterForm"
-            android:label="@string/title_activity_character_form"
+            android:label="Character Form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"

@@ -152,19 +152,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
-        advertise = findViewById(R.id.advertise);
-        discover = findViewById(R.id.discover);
-        connect = findViewById(R.id.connect);
-        sendPayload = findViewById(R.id.send);
-        textInput = (EditText)findViewById(R.id.text_to_send);
+//        advertise = findViewById(R.id.advertise);
+//        discover = findViewById(R.id.discover);
+//        connect = findViewById(R.id.connect);
+//        sendPayload = findViewById(R.id.send);
+//        textInput = (EditText)findViewById(R.id.text_to_send);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        mTextMessage = (TextView) findViewById(R.id.message);
+//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        connectionsClient = Nearby.getConnectionsClient(this);
+       connectionsClient = Nearby.getConnectionsClient(this);
+
+        Intent intent = new Intent(this, CharacterListActivity.class);
+        startActivity(intent);
     }
 
     @Override
