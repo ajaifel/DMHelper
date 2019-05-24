@@ -4,4 +4,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="service_id">app_service_id</string>
+    <string name="title_activity_character_form">CharacterForm</string>
+    <string name="title_activity_character_list">CharacterListActivity</string>
 </resources>

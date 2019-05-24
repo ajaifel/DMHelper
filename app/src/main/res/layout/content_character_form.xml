@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="52dp"
+        android:layout_weight="1"
+        android:hint="Anything you would like to share about your characters weirdness"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cDesc"
+        app:layout_constraintTop_toBottomOf="@+id/cDesc" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterEquip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:hint="What are you wearing?"
+        app:layout_constraintEnd_toStartOf="@+id/cSkills"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cEquip"
+        app:layout_constraintTop_toBottomOf="@+id/cEquip" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterSkills"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="e.g. Barter, Swimming, anything you're very good at, or very bad at preferrably"
+        app:layout_constraintEnd_toEndOf="@+id/cSkills"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cSkills"
+        app:layout_constraintTop_toBottomOf="@+id/cSkills" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterStats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:hint="Str: , Int:, Dex:, Etc"
+        app:layout_constraintBottom_toTopOf="@+id/cEquip"
+        app:layout_constraintEnd_toEndOf="@+id/cStats"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cStats"
+        app:layout_constraintTop_toBottomOf="@+id/cStats" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterLevel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="e.g. 13/4"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/cLevel"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cLevel"
+        app:layout_constraintTop_toBottomOf="@+id/cLevel" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterClass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="e.g. Bard"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/cClass"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cClass"
+        app:layout_constraintTop_toBottomOf="@+id/cClass" />
+
+    <TextView
+        android:id="@+id/cDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="104dp"
+        android:text="Description"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cEquip" />
+
+    <TextView
+        android:id="@+id/cEquip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="152dp"
+        android:text="Equipment"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cStats" />
+
+    <TextView
+        android:id="@+id/cSkills"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="52dp"
+        android:text="Minor Stats/Skills"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cStats"
+        app:layout_constraintTop_toBottomOf="@+id/cLevel" />
+
+    <TextView
+        android:id="@+id/cStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="68dp"
+        android:text="Major Stats"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cClass" />
+
+    <TextView
+        android:id="@+id/cLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="52dp"
+        android:text="Level/Prestige"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cClass"
+        app:layout_constraintTop_toBottomOf="@+id/pName" />
+
+    <TextView
+        android:id="@+id/cClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="53dp"
+        android:text="Class/Archetype"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cName" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/characterName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="or Nickname"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/cName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cName"
+        app:layout_constraintTop_toBottomOf="@+id/cName" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/playerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="or ID"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/pName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/pName"
+        app:layout_constraintTop_toBottomOf="@+id/pName" />
+
+    <TextView
+        android:id="@+id/cName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="46dp"
+        android:text="Character Name"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="52dp"
+        android:text="Player Name"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="17dp"
+        android:text="Save"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/pName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+</android.support.constraint.ConstraintLayout>

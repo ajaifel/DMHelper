@@ -2,6 +2,7 @@ package com.btinternet.jackbaxter007.dmhelper;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -242,5 +243,10 @@ public class MainActivity extends AppCompatActivity {
     public void mDiscover(View view) {
         startDiscovery();
         Toast.makeText(this, "Discover: pressed", Toast.LENGTH_LONG).show();
+    }
+
+    public void mConnect(View view) {
+        Intent intent = new Intent(this, CharacterListActivity.class);
+        startActivity(intent);
     }
 }

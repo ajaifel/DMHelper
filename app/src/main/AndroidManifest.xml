@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.btinternet.jackbaxter007.dmhelper">
+    <!-- Required for Nearby Connections -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CharacterListActivity"
+            android:label="@string/title_activity_character_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CharacterForm"
+            android:label="@string/title_activity_character_form"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -18,14 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.gms.nearby.connection.SERVICE_ID" android:value="@string/service_id"/>
-    </application>
 
-    <!-- Required for Nearby Connections -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <meta-data
+            android:name="com.google.android.gms.nearby.connection.SERVICE_ID"
+            android:value="@string/service_id" />
+    </application>
 
 </manifest>
