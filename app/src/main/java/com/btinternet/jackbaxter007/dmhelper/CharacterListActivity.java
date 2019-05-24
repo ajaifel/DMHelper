@@ -11,13 +11,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.connection.AdvertisingOptions;
+import com.google.android.gms.nearby.connection.ConnectionInfo;
+import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
+import com.google.android.gms.nearby.connection.ConnectionResolution;
+import com.google.android.gms.nearby.connection.ConnectionsClient;
+import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo;
+import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback;
+import com.google.android.gms.nearby.connection.Payload;
+import com.google.android.gms.nearby.connection.PayloadCallback;
+import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
+import com.google.android.gms.nearby.connection.Strategy;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class CharacterListActivity extends AppCompatActivity implements CharactersAdapter.OnCharacterItemClick{
+
+    private static final Strategy STRATEGY = Strategy.P2P_STAR;
+    private static final String TAG = "DMHelper";
 
     private TextView textViewMsg;
     private RecyclerView recyclerView;
@@ -25,14 +48,77 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     private List<Character> characters;
     private CharactersAdapter charactersAdapter;
     private int pos;
+    FloatingActionButton fab2;
+    private ConnectionsClient connectionsClient;
+    private String endpointID;
+    private String partnerEndpointId;
+    private Character inCharacter;
+
+    // Callbacks for receiving payloads
+    private final PayloadCallback payloadCallback =
+            new PayloadCallback() {
+                @Override
+                public void onPayloadReceived(String endpointId, Payload payload) {
+                    try {
+                        inCharacter = (Character) deserialize(payload.asBytes());
+                        characters.add(inCharacter);
+                        inCharacter = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
+                    if (update.getStatus() == PayloadTransferUpdate.Status.SUCCESS) {
+                        displayList();
+                    }
+                }
+            };
+
+    // Callbacks for connections to other devices
+    private final ConnectionLifecycleCallback connectionLifecycleCallback =
+            new ConnectionLifecycleCallback() {
+                @Override
+                public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
+                    Log.i(TAG, "onConnectionInitiated: accepting connection");
+                    Toast.makeText(getApplicationContext(),"onConnectionInitiated: accepting connection", Toast.LENGTH_LONG).show();
+                    connectionsClient.acceptConnection(endpointId, payloadCallback);
+                    //opponentName = connectionInfo.getEndpointName();
+                }
+
+                @Override
+                public void onConnectionResult(String endpointId, ConnectionResolution result) {
+                    if (result.getStatus().isSuccess()) {
+                        Log.i(TAG, "onConnectionResult: connection successful");
+                        Toast.makeText(getApplicationContext(),"onConnectionResult: connection successful", Toast.LENGTH_LONG).show();
+
+                        partnerEndpointId = endpointId;
+                    } else {
+                        Log.i(TAG, "onConnectionResult: connection failed");
+                        Toast.makeText(getApplicationContext(),"onConnectionResult: connection failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onDisconnected(String endpointId) {
+                    Log.i(TAG, "onDisconnected: disconnected from partner");
+                    Toast.makeText(getApplicationContext(),"onDisconnected: disconnected from partner", Toast.LENGTH_LONG).show();
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_list);
 
+        fab2 = findViewById(R.id.fab2);
         initializeVies();
         displayList();
+
+        connectionsClient = Nearby.getConnectionsClient(this);
     }
 
     private void displayList(){
@@ -127,8 +213,6 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
                                                 CharacterForm.class).putExtra("character",characters.get(pos)),
                                         100);
                                 break;
-                            case 3:
-                                characters.get(pos);
                         }
                     }
                 }).show();
@@ -149,6 +233,25 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     protected void onDestroy() {
         characterDatabase.cleanUp();
         super.onDestroy();
+    }
+
+
+    private void startAdvertising() {
+        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
+        connectionsClient.startAdvertising(
+                "WHY", getPackageName(), connectionLifecycleCallback,
+                new AdvertisingOptions.Builder().setStrategy(STRATEGY).build());
+    }
+
+    public void findCharacters(View view) {
+        startAdvertising();
+        Toast.makeText(this, "Looking for Players...", Toast.LENGTH_LONG).show();
+    }
+
+    public static Object deserialize(byte[] data) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream in = new ByteArrayInputStream(data);
+        ObjectInputStream is = new ObjectInputStream(in);
+        return is.readObject();
     }
 
 }

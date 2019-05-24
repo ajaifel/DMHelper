@@ -15,10 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SendNearby"></activity>
         <activity
             android:name=".CharacterListActivity"
             android:label="@string/title_activity_character_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CharacterForm"
             android:label="@string/title_activity_character_form"
