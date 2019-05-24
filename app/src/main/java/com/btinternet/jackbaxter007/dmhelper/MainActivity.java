@@ -1,10 +1,14 @@
 package com.btinternet.jackbaxter007.dmhelper;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.Manifest;
 import android.content.Context;
@@ -33,7 +37,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
     private static final String TAG = "DMHelper";
+
     private ConnectionsClient connectionsClient;
+
+    private static final String[] REQUIRED_PERMISSIONS =
+            new String[] {
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.ACCESS_WIFI_STATE,
+                    Manifest.permission.CHANGE_WIFI_STATE,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+            };
+
+    private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
     private Button advertise;
     private Button discover;
@@ -44,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private String recievedText;
     private String partnerEndpointId;
 
+    EditText textInput;
+
     private TextView mTextMessage;
 
     // Callbacks for receiving payloads
@@ -51,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
             new PayloadCallback() {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
-                    recievedText = new String(payload.asBytes());
+                    recievedText = new String(payload.asBytes(), UTF_8);
                     Toast.makeText(getApplicationContext(),recievedText, Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
-                    recievedText = new String(update.toString());
-                    Toast.makeText(getApplicationContext(),recievedText, Toast.LENGTH_LONG).show();
+                    if (update.getStatus() == Status.SUCCESS && recievedText != null) {
+                    }
                 }
             };
 
@@ -139,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         discover = findViewById(R.id.discover);
         connect = findViewById(R.id.connect);
         sendPayload = findViewById(R.id.send);
+        textInput = (EditText)findViewById(R.id.text_to_send);
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -148,10 +167,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+        }
+    }
+
+    @Override
     protected void onStop() {
         connectionsClient.stopAllEndpoints();
 
         super.onStop();
+    }
+
+    /** Returns true if the app was granted all the permissions. Otherwise, returns false. */
+    private static boolean hasPermissions(Context context, String... permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Handles user acceptance (or denial) of our permission request. */
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode != REQUEST_CODE_REQUIRED_PERMISSIONS) {
+            return;
+        }
+
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, "Error: Missing Permissions", Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+        }
+        recreate();
     }
 
     private void startDiscovery() {
@@ -170,15 +229,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendData (View view){
+        String value = textInput.getText().toString();
         connectionsClient.sendPayload(
-                partnerEndpointId, Payload.fromBytes(recievedText.getBytes()));
+                partnerEndpointId, Payload.fromBytes(value.getBytes(UTF_8)));
     }
 
     public void mAdvertise(View view) {
         startAdvertising();
+        Toast.makeText(this, "Advertise: pressed", Toast.LENGTH_LONG).show();
     }
 
     public void mDiscover(View view) {
         startDiscovery();
+        Toast.makeText(this, "Discover: pressed", Toast.LENGTH_LONG).show();
     }
 }
