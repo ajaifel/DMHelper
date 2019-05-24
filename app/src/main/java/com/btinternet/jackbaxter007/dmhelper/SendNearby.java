@@ -107,6 +107,7 @@ public class SendNearby extends AppCompatActivity {
                         conStatus.setText("Connection Successful, Sending Character");
                         try {
                             sendData();
+                            conStatus.setText("Character Sent!");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

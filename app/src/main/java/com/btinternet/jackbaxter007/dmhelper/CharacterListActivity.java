@@ -33,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -61,7 +62,11 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     try {
                         inCharacter = (Character) deserialize(payload.asBytes());
-                        characters.add(inCharacter);
+                        //inCharacter.setChar_id(characters.size());
+                        startActivityForResult(
+                                new Intent(CharacterListActivity.this,
+                                        CharacterForm.class).putExtra("character",inCharacter).putExtra("transfer", 1),
+                                100);
                         inCharacter = null;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -117,6 +122,8 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
         fab2 = findViewById(R.id.fab2);
         initializeVies();
         displayList();
+
+        //characters = new ArrayList<>();
 
         connectionsClient = Nearby.getConnectionsClient(this);
     }
@@ -212,6 +219,12 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
                                         new Intent(CharacterListActivity.this,
                                                 CharacterForm.class).putExtra("character",characters.get(pos)),
                                         100);
+                                break;
+                            case 2:
+                                CharacterListActivity.this.pos = pos;
+                                startActivity(
+                                        new Intent(CharacterListActivity.this,
+                                                SendNearby.class).putExtra("character",characters.get(pos)));
                                 break;
                         }
                     }

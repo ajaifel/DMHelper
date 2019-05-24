@@ -41,7 +41,30 @@ public class CharacterForm extends AppCompatActivity {
 
         Button save = findViewById(R.id.saveButton);
 
-        if ( (character = (Character) getIntent().getSerializableExtra("character"))!=null ){
+        if ((getIntent().getSerializableExtra("transfer"))!=null){
+            character = (Character) getIntent().getSerializableExtra("character");
+            c_name.setText(character.getChar_name());
+            p_name.setText(character.getPlayer_name());
+            c_class.setText(character.getCharacter_class());
+            c_level.setText(character.getLevel());
+            c_stats.setText(character.getStats());
+            c_skills.setText(character.getSkills());
+            c_equip.setText(character.getEquipment());
+            c_desc.setText(character.getDescription());
+            character = new Character(c_name.getText().toString(),
+                    p_name.getText().toString(),
+                    c_class.getText().toString(),
+                    c_level.getText().toString(),
+                    c_stats.getText().toString(),
+                    c_skills.getText().toString(),
+                    c_equip.getText().toString(),
+                    c_desc.getText().toString());
+
+            // create worker thread to insert data into database
+            setResult(character,1);
+            new InsertTask(CharacterForm.this, character).execute();
+        }
+        else if ( (character = (Character) getIntent().getSerializableExtra("character"))!=null ){
             //getSupportActionBar().setTitle("Update Character");
             update = true;
             save.setText("Update");
@@ -92,6 +115,7 @@ public class CharacterForm extends AppCompatActivity {
         setResult(flag,new Intent().putExtra("character", character));
         finish();
     }
+
 
     private static class InsertTask extends AsyncTask<Void,Void,Boolean> {
 
